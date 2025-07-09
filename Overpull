@@ -1,0 +1,74 @@
+// Site da Guild Overpull - React + TailwindCSS
+
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export default function OverpullSite() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+      method: "POST",
+      body: new URLSearchParams(data),
+    });
+
+    setSubmitted(true);
+    e.target.reset();
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-gray-200 font-sans p-6 space-y-10">
+      <header className="text-center space-y-2">
+        <h1 className="text-4xl font-bold text-orange-500">Overpull</h1>
+        <p className="text-lg text-gray-400">Recrutamento para o Core Mítico!</p>
+      </header>
+
+      <Card className="bg-gray-900 text-center p-6 max-w-3xl mx-auto shadow-xl">
+        <CardContent>
+          <h2 className="text-2xl text-orange-400 font-semibold mb-4">Junte-se ao Core Mítico!</h2>
+          <p className="text-gray-300 mb-4">
+            Procuramos jogadores dedicados, com bom desempenho e comprometimento para
+            conteúdo de alto nível. Faça parte da Overpull e avance com a gente!
+          </p>
+          <a
+            href="https://discord.gg/26CVGM3b3h"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white">Entrar no Discord</Button>
+          </a>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-gray-800 max-w-3xl mx-auto p-6">
+        <CardContent>
+          <h3 className="text-xl font-bold text-orange-400 mb-4">Formulário de Inscrição</h3>
+
+          {submitted ? (
+            <div className="text-green-400 font-semibold">Inscrição enviada com sucesso!</div>
+          ) : (
+            <form onSubmit={handleSubmit} className="grid gap-4">
+              <input name="nome" required placeholder="Nome completo" className="p-2 bg-gray-700 rounded" />
+              <input name="email" required type="email" placeholder="E-mail" className="p-2 bg-gray-700 rounded" />
+              <input name="personagem" required placeholder="Nome do personagem" className="p-2 bg-gray-700 rounded" />
+              <input name="classe" required placeholder="Classe" className="p-2 bg-gray-700 rounded" />
+              <input name="raca" required placeholder="Raça" className="p-2 bg-gray-700 rounded" />
+              <input name="servidor" required placeholder="Servidor" className="p-2 bg-gray-700 rounded" />
+              <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">Enviar inscrição</Button>
+            </form>
+          )}
+        </CardContent>
+      </Card>
+
+      <footer className="text-center text-sm text-gray-500 pt-10">
+        © 2025 Overpull Guild
+      </footer>
+    </div>
+  );
+}
